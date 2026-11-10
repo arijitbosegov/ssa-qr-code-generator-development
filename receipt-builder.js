@@ -118,7 +118,6 @@ function drawReceipt(receipt, selections) {
 
 document.addEventListener('DOMContentLoaded', function () {
   var config = window.RECEIPT_CONFIG;
-  document.getElementById('page-title').textContent = config.title;
   document.getElementById('template-name').textContent = config.templateName;
 
   config.tickets.forEach(function (ticket) {
