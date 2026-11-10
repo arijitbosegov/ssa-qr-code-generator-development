@@ -60,9 +60,9 @@ function drawReceipt(receipt, selections) {
       return total + item.price * item.seats;
     }, 0);
     var centerX = canvas.width / 2;
-    var lineHeight = Math.round(canvas.width * 0.035);
-    var fontSize = Math.round(canvas.width * 0.027);
-    var y = Math.round(canvas.height * 0.475);
+    var lineHeight = Math.round(canvas.width * 0.027);
+    var fontSize = Math.round(canvas.width * 0.021);
+    var y = Math.round(canvas.height * 0.46);
 
     context.fillStyle = '#000';
     context.font = 'bold ' + fontSize + 'px Arial, sans-serif';
