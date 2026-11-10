@@ -65,13 +65,13 @@ function drawReceipt(receipt, selections) {
     var y = Math.round(canvas.height * 0.46);
 
     context.fillStyle = '#8f1717';
-    context.font = 'bold ' + Math.round(canvas.width * 0.019) + 'px Georgia, serif';
-    context.fillText(receipt.show + ' Show', centerX, Math.round(canvas.height * 0.145));
+    context.font = 'bold ' + Math.round(canvas.width * 0.027) + 'px Georgia, serif';
+    context.textAlign = 'center';
+    context.textBaseline = 'top';
+    context.fillText(receipt.show + ' Show', canvas.width / 2, Math.round(canvas.height * 0.135));
 
     context.fillStyle = '#000';
     context.font = 'bold ' + fontSize + 'px Arial, sans-serif';
-    context.textAlign = 'center';
-    context.textBaseline = 'top';
     context.fillText('Date & Time: ' + formatDateTime(), centerX, y);
     y += lineHeight * 1.4;
 
