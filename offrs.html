@@ -18,6 +18,11 @@
   .seat-control{display:flex;align-items:center;justify-content:center;gap:8px;background:#188038;color:#fff;font-weight:700}
   .seat-control span{font-size:14px}
   select{min-width:48px;padding:7px;border:0;border-radius:5px;background:#fff;color:#111;font-size:17px}
+  .show-selection{text-align:center;margin:24px 0 0;font-weight:700}
+  .show-toggle{display:inline-flex;margin-top:10px;border-radius:8px;overflow:hidden;background:#ddd}
+  .show-toggle label{padding:11px 18px;background:#fff;color:#8f1717;cursor:pointer}
+  .show-toggle input{position:absolute;opacity:0}
+  .show-toggle label:has(input:checked){background:#8f1717;color:#fff}
   .summary{margin:24px 0;text-align:center;font-size:18px;font-weight:700}
   .summary span{margin:0 12px}
   #download{display:block;width:100%;padding:16px;border:0;border-radius:8px;background:#8f1717;color:#fff;font-size:19px;font-weight:700;cursor:pointer}
@@ -33,6 +38,12 @@
 </div>
 <p class="instruction">Choose the ticket type and number of seats, then download the receipt.</p>
 <div id="tickets"></div>
+<div class="show-selection">Select show
+  <div class="show-toggle" role="group" aria-label="Select show">
+    <label><input type="radio" name="show" value="Matinee" checked><span>Matinee</span></label>
+    <label><input type="radio" name="show" value="Evening"><span>Evening</span></label>
+  </div>
+</div>
 <div class="summary"><span>Total seats: <strong id="seat-total">0</strong></span><span>Total amount: <strong id="amount-total">₹0</strong></span></div>
 <button id="download" type="button">Download Receipt PNG</button>
 <p id="template-name" hidden></p>
@@ -42,6 +53,7 @@ window.RECEIPT_CONFIG = {
   templateName: 'Red officers receipt',
   template: 'Offrs.png',
   fileName: 'Officers Receipt.png',
+  show: 'Matinee',
   tickets: [
     {label: 'Ticket - ₹ 100 (Mon-Fri & Sat Matinee Show)', price: 100},
     {label: 'Ticket - ₹ 200 (Sat & Sun Evening Show)', price: 200},

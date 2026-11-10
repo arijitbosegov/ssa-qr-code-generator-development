@@ -64,6 +64,10 @@ function drawReceipt(receipt, selections) {
     var fontSize = Math.round(canvas.width * 0.021);
     var y = Math.round(canvas.height * 0.46);
 
+    context.fillStyle = '#8f1717';
+    context.font = 'bold ' + Math.round(canvas.width * 0.019) + 'px Georgia, serif';
+    context.fillText(receipt.show + ' Show', centerX, Math.round(canvas.height * 0.145));
+
     context.fillStyle = '#000';
     context.font = 'bold ' + fontSize + 'px Arial, sans-serif';
     context.textAlign = 'center';
@@ -139,6 +143,12 @@ document.addEventListener('DOMContentLoaded', function () {
       '</select></label>';
     row.querySelector('select').addEventListener('change', updateSummary);
     document.getElementById('tickets').appendChild(row);
+  });
+
+  document.querySelectorAll('input[name="show"]').forEach(function (input) {
+    input.addEventListener('change', function () {
+      config.show = input.value;
+    });
   });
 
   document.getElementById('download').addEventListener('click', function () {
