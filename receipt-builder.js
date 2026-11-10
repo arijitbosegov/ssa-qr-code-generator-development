@@ -64,7 +64,7 @@ function drawReceipt(receipt, selections) {
     var fontSize = Math.round(canvas.width * 0.021);
     var y = Math.round(canvas.height * 0.46);
 
-    context.fillStyle = '#8f1717';
+    context.fillStyle = receipt.showColor;
     context.font = 'bold ' + Math.round(canvas.width * 0.034) + 'px Georgia, serif';
     context.textAlign = 'center';
     context.textBaseline = 'top';
