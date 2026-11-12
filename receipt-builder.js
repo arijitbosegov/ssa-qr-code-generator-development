@@ -20,6 +20,51 @@ function formatAmount(amount) {
   return '₹' + amount.toLocaleString('en-IN');
 }
 
+function getTicketDate() {
+  var now = new Date();
+  var parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false
+  }).formatToParts(now).reduce(function (result, part) {
+    result[part.type] = part.value;
+    return result;
+  }, {});
+  var date = new Date(Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day)
+  ));
+  if (Number(parts.hour) < 5) {
+    date.setUTCDate(date.getUTCDate() - 1);
+  }
+  return date.toISOString().slice(0, 10);
+}
+
+function getNextTicketNumber() {
+  var key = 'ssa-ticket-counter-v1';
+  var ticketDate = getTicketDate();
+  var saved;
+  try {
+    saved = JSON.parse(localStorage.getItem(key) || 'null');
+  } catch (error) {
+    throw new Error('Ticket numbering storage is unavailable.');
+  }
+  var nextNumber = saved && saved.date === ticketDate ? saved.number + 1 : 1;
+  try {
+    localStorage.setItem(key, JSON.stringify({
+      date: ticketDate,
+      number: nextNumber
+    }));
+  } catch (error) {
+    throw new Error('Ticket numbering storage is unavailable.');
+  }
+  return nextNumber;
+}
+
 function getSelections() {
   return Array.from(document.querySelectorAll('[data-price]')).map(function (row) {
     return {
@@ -71,7 +116,11 @@ function drawReceipt(receipt, selections) {
     context.fillText((receipt.show + ' SHOW').toUpperCase(), canvas.width / 2, Math.round(canvas.height * 0.132));
 
     context.fillStyle = '#000';
+    context.font = 'bold ' + Math.round(canvas.width * 0.032) + 'px Arial, sans-serif';
+    context.textAlign = 'right';
+    context.fillText('Ticket No: ' + receipt.ticketNumber, canvas.width - 46, 18);
     context.font = 'bold ' + fontSize + 'px Arial, sans-serif';
+    context.textAlign = 'center';
     context.fillText('Date & Time: ' + formatDateTime(), centerX, y);
     y += lineHeight * 1.4;
 
@@ -157,7 +206,13 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     setControlsDisabled(true);
-    drawReceipt(config, selections);
+    try {
+      config.ticketNumber = getNextTicketNumber();
+      drawReceipt(config, selections);
+    } catch (error) {
+      setControlsDisabled(false);
+      window.alert(error.message);
+    }
   });
   updateSummary();
 });
