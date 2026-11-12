@@ -44,8 +44,8 @@ function getTicketDate() {
   return date.toISOString().slice(0, 10);
 }
 
-function getNextTicketNumber() {
-  var key = 'ssa-ticket-counter-v1';
+function getNextTicketNumber(counterKey) {
+  var key = 'ssa-ticket-counter-v1-' + counterKey;
   var ticketDate = getTicketDate();
   var saved;
   try {
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setControlsDisabled(true);
     try {
-      config.ticketNumber = getNextTicketNumber();
+      config.ticketNumber = getNextTicketNumber(config.counterKey);
       drawReceipt(config, selections);
     } catch (error) {
       setControlsDisabled(false);
